@@ -1,45 +1,45 @@
 let currentInput = "0";
 let previousInput = "";
 let operator = "";
-let shouldResetDisplay = false;
+let shouldResetScreen = false;
 
-const display = document.getElementById("display");
+const screen = document.getElementById("screen");
 
-function updateDisplay() {
-  display.textContent = currentInput;
+function updateScreen() {
+  screen.textContent = currentInput;
 }
 
 function appendNumber(num) {
-  if (shouldResetDisplay) {
+  if (shouldResetScreen) {
     currentInput = num;
-    shouldResetDisplay = false;
+    shouldResetScreen = false;
   } else {
     currentInput = currentInput === "0" ? num : currentInput + num;
   }
-  updateDisplay();
+  updateScreen();
 }
 
 function appendDecimal() {
-  if (shouldResetDisplay) {
+  if (shouldResetScreen) {
     currentInput = "0.";
-    shouldResetDisplay = false;
+    shouldResetScreen = false;
   } else if (!currentInput.includes(".")) {
     currentInput += ".";
   }
-  updateDisplay();
+  updateScreen();
 }
 
 function appendOperator(op) {
-  if (operator && !shouldResetDisplay) {
+  if (operator && !shouldResetScreen) {
     calculate();
   }
   previousInput = currentInput;
   operator = op;
-  shouldResetDisplay = true;
+  shouldResetScreen = true;
 }
 
 function calculate() {
-  if (!operator || shouldResetDisplay) return;
+  if (!operator || shouldResetScreen) return;
 
   const prev = parseFloat(previousInput);
   const curr = parseFloat(currentInput);
@@ -65,16 +65,16 @@ function calculate() {
   currentInput = result.toString();
   operator = "";
   previousInput = "";
-  shouldResetDisplay = true;
-  updateDisplay();
+  shouldResetScreen = true;
+  updateScreen();
 }
 
-function clearDisplay() {
+function clearScreen() {
   currentInput = "0";
   previousInput = "";
   operator = "";
-  shouldResetDisplay = false;
-  updateDisplay();
+  shouldResetScreen = false;
+  updateScreen();
 }
 
 function deleteLastChar() {
@@ -83,7 +83,7 @@ function deleteLastChar() {
   } else {
     currentInput = "0";
   }
-  updateDisplay();
+  updateScreen();
 }
 
 // Keyboard support
@@ -93,6 +93,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/")
     appendOperator(e.key);
   if (e.key === "Enter" || e.key === "=") calculate();
-  if (e.key === "Escape") clearDisplay();
+  if (e.key === "Escape") clearScreen();
   if (e.key === "Backspace") deleteLastChar();
 });
